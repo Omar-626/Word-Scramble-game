@@ -627,7 +627,7 @@ let timerCounter = 15;
 time.textContent = `Time left: ${timerCounter}s`;
 
 const checkWord = () => {
-if(input.value.toLowerCase() == randomWord) {
+if(input.value.replace(/\s+/g, '').toLowerCase() == randomWord) {
     rightWordsCounter++;
     currentScore++;
     currentScoreCounter+= currentScore;
@@ -647,12 +647,14 @@ if(input.value.toLowerCase() == randomWord) {
         randomWordScrambled = shuffleArray(randomWord.split('')).join(' ');
         scrambledWord.textContent = randomWordScrambled;
         hint.textContent = `Hint: ${randomHint}`;
+        input.focus();
 }else {
     answerCheck.textContent = `Wrong Answer !`;
     answerCheck.classList.remove(`hidden`);
             setTimeout(() => {
             answerCheck.classList.add(`hidden`);
         }, 2500)
+        input.focus();
 }
 
 }
@@ -686,8 +688,12 @@ refreshBtn.addEventListener(`click`, () => {
     randomWordScrambled = shuffleArray(randomWord.split('')).join(' ');
     scrambledWord.textContent = randomWordScrambled;
     hint.textContent = `Hint: ${randomHint}`;
+    input.focus();
 });
-checkBtn.addEventListener(`click`, checkWord);
+checkBtn.addEventListener(`click`, () => {
+    checkWord();
+    input.focus();
+});
 input.addEventListener(`keydown`, (e) => {
     if(e.key === "Enter") {
         checkWord();
@@ -715,5 +721,6 @@ modalOkBtn.addEventListener('click', () => {
 
 window.addEventListener(`load`, () => {
     input.value = ``;
+    input.focus();
 })
 ///////
